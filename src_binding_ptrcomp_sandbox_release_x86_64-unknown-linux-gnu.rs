@@ -426,7 +426,8 @@ pub struct v8_GCCallbackFlags(pub ::std::os::raw::c_uint);
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum v8_ModuleImportPhase {
   kSource = 0,
-  kEvaluation = 1,
+  kDefer = 1,
+  kEvaluation = 2,
 }
 #[doc = " Collection of V8 heap information.\n\n Instances of this class can be passed to v8::Isolate::GetHeapStatistics to\n get heap statistics from V8."]
 #[repr(C)]
@@ -446,11 +447,12 @@ pub struct v8_HeapStatistics {
   pub number_of_detached_contexts_: usize,
   pub total_global_handles_size_: usize,
   pub used_global_handles_size_: usize,
+  pub total_allocated_bytes_: u64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
   ["Size of v8_HeapStatistics"]
-    [::std::mem::size_of::<v8_HeapStatistics>() - 112usize];
+    [::std::mem::size_of::<v8_HeapStatistics>() - 120usize];
   ["Alignment of v8_HeapStatistics"]
     [::std::mem::align_of::<v8_HeapStatistics>() - 8usize];
   ["Offset of field: v8_HeapStatistics::total_heap_size_"]
@@ -500,6 +502,10 @@ const _: () = {
     used_global_handles_size_
   )
     - 104usize];
+  ["Offset of field: v8_HeapStatistics::total_allocated_bytes_"][::std::mem::offset_of!(
+    v8_HeapStatistics,
+    total_allocated_bytes_
+  ) - 112usize];
 };
 unsafe extern "C" {
   #[link_name = "\u{1}_ZN2v814HeapStatisticsC1Ev"]
@@ -685,7 +691,7 @@ pub enum v8_Isolate_UseCounterFeature {
   kDurationFormat = 117,
   kInvalidatedNumberStringNotRegexpLikeProtector = 118,
   kOBSOLETE_RegExpUnicodeSetIncompatibilitiesWithUnicodeMode = 119,
-  kImportAssertionDeprecatedSyntax = 120,
+  kOBSOLETE_ImportAssertionDeprecatedSyntax = 120,
   kLocaleInfoObsoletedGetters = 121,
   kLocaleInfoFunctions = 122,
   kCompileHintsMagicAll = 123,
@@ -748,7 +754,8 @@ pub enum v8_Isolate_UseCounterFeature {
   kWithStatement = 180,
   kHtmlWrapperMethods = 181,
   kWasmCustomDescriptors = 182,
-  kUseCounterFeatureCount = 183,
+  kWasmResizableBuffers = 183,
+  kUseCounterFeatureCount = 184,
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -831,10 +838,10 @@ pub use self::v8_GCCallbackFlags as v8__GCCallbackFlags;
 #[doc = " Applications can register callback functions which will be called before and\n after certain garbage collection operations.  Allocations are not allowed in\n the callback functions, you therefore cannot manipulate objects (set or\n delete properties for example) since it is possible such operations will\n result in the allocation of objects.\n TODO(v8:12612): Deprecate kGCTypeMinorMarkSweep after updating blink."]
 pub use self::v8_GCType as v8__GCType;
 pub const v8__MAJOR_VERSION: u32 = 14;
-pub const v8__MINOR_VERSION: u32 = 2;
-pub const v8__BUILD_NUMBER: u32 = 231;
-pub const v8__PATCH_LEVEL: u32 = 17;
-pub const v8__VERSION_STRING: &::std::ffi::CStr = c"14.2.231.17-rusty";
+pub const v8__MINOR_VERSION: u32 = 5;
+pub const v8__BUILD_NUMBER: u32 = 201;
+pub const v8__PATCH_LEVEL: u32 = 2;
+pub const v8__VERSION_STRING: &::std::ffi::CStr = c"14.5.201.2-rusty";
 #[repr(C)]
 #[derive(Debug)]
 pub struct ExternalConstOneByteStringResource {
