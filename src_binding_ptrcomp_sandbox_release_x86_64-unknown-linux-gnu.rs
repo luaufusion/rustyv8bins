@@ -567,6 +567,55 @@ impl v8_HeapSpaceStatistics {
     __bindgen_tmp.assume_init()
   }
 }
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct v8_HeapCodeStatistics {
+  pub code_and_metadata_size_: usize,
+  pub bytecode_and_metadata_size_: usize,
+  pub external_script_source_size_: usize,
+  pub cpu_profiler_metadata_size_: usize,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+  ["Size of v8_HeapCodeStatistics"]
+    [::std::mem::size_of::<v8_HeapCodeStatistics>() - 32usize];
+  ["Alignment of v8_HeapCodeStatistics"]
+    [::std::mem::align_of::<v8_HeapCodeStatistics>() - 8usize];
+  ["Offset of field: v8_HeapCodeStatistics::code_and_metadata_size_"][::std::mem::offset_of!(
+    v8_HeapCodeStatistics,
+    code_and_metadata_size_
+  )
+    - 0usize];
+  ["Offset of field: v8_HeapCodeStatistics::bytecode_and_metadata_size_"][::std::mem::offset_of!(
+    v8_HeapCodeStatistics,
+    bytecode_and_metadata_size_
+  )
+    - 8usize];
+  ["Offset of field: v8_HeapCodeStatistics::external_script_source_size_"][::std::mem::offset_of!(
+    v8_HeapCodeStatistics,
+    external_script_source_size_
+  )
+    - 16usize];
+  ["Offset of field: v8_HeapCodeStatistics::cpu_profiler_metadata_size_"][::std::mem::offset_of!(
+    v8_HeapCodeStatistics,
+    cpu_profiler_metadata_size_
+  )
+    - 24usize];
+};
+unsafe extern "C" {
+  #[link_name = "\u{1}_ZN2v818HeapCodeStatisticsC1Ev"]
+  pub fn v8_HeapCodeStatistics_HeapCodeStatistics(
+    this: *mut v8_HeapCodeStatistics,
+  );
+}
+impl v8_HeapCodeStatistics {
+  #[inline]
+  pub unsafe fn new() -> Self {
+    let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+    v8_HeapCodeStatistics_HeapCodeStatistics(__bindgen_tmp.as_mut_ptr());
+    __bindgen_tmp.assume_init()
+  }
+}
 #[repr(u32)]
 #[doc = " Features reported via the SetUseCounterCallback callback. Do not change\n assigned numbers of existing items; add new features to the end of this\n list.\n Dead features can be marked `V8_DEPRECATE_SOON`, then `V8_DEPRECATED`, and\n then finally be renamed to `kOBSOLETE_...` to stop embedders from using\n them."]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -757,6 +806,13 @@ pub enum v8_Isolate_UseCounterFeature {
   kWasmResizableBuffers = 183,
   kUseCounterFeatureCount = 184,
 }
+#[repr(u32)]
+#[doc = " Interceptor callbacks use this value to indicate whether the request was\n intercepted or not.\n\n The values for constants and type are chosen this way for better\n performance."]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum v8_Intercepted {
+  kNo = 1,
+  kYes = 0,
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct memory_span_t {
@@ -772,6 +828,23 @@ const _: () = {
     [::std::mem::offset_of!(memory_span_t, data) - 0usize];
   ["Offset of field: memory_span_t::size"]
     [::std::mem::offset_of!(memory_span_t, size) - 8usize];
+};
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct const_memory_span_t {
+  pub data: *const u8,
+  pub size: usize,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+  ["Size of const_memory_span_t"]
+    [::std::mem::size_of::<const_memory_span_t>() - 16usize];
+  ["Alignment of const_memory_span_t"]
+    [::std::mem::align_of::<const_memory_span_t>() - 8usize];
+  ["Offset of field: const_memory_span_t::data"]
+    [::std::mem::offset_of!(const_memory_span_t, data) - 0usize];
+  ["Offset of field: const_memory_span_t::size"]
+    [::std::mem::offset_of!(const_memory_span_t, size) - 8usize];
 };
 #[repr(C)]
 #[derive(Debug)]
@@ -833,15 +906,18 @@ pub use self::v8_ModuleImportPhase as v8__ModuleImportPhase;
 #[doc = " Collection of V8 heap information.\n\n Instances of this class can be passed to v8::Isolate::GetHeapStatistics to\n get heap statistics from V8."]
 pub type v8__HeapStatistics = v8_HeapStatistics;
 pub type v8__HeapSpaceStatistics = v8_HeapSpaceStatistics;
+pub type v8__HeapCodeStatistics = v8_HeapCodeStatistics;
 #[doc = " GCCallbackFlags is used to notify additional information about the GC\n callback.\n   - kGCCallbackFlagConstructRetainedObjectInfos: The GC callback is for\n     constructing retained object infos.\n   - kGCCallbackFlagForced: The GC callback is for a forced GC for testing.\n   - kGCCallbackFlagSynchronousPhantomCallbackProcessing: The GC callback\n     is called synchronously without getting posted to an idle task.\n   - kGCCallbackFlagCollectAllAvailableGarbage: The GC callback is called\n     in a phase where V8 is trying to collect all available garbage\n     (e.g., handling a low memory notification).\n   - kGCCallbackScheduleIdleGarbageCollection: The GC callback is called to\n     trigger an idle garbage collection."]
 pub use self::v8_GCCallbackFlags as v8__GCCallbackFlags;
 #[doc = " Applications can register callback functions which will be called before and\n after certain garbage collection operations.  Allocations are not allowed in\n the callback functions, you therefore cannot manipulate objects (set or\n delete properties for example) since it is possible such operations will\n result in the allocation of objects.\n TODO(v8:12612): Deprecate kGCTypeMinorMarkSweep after updating blink."]
 pub use self::v8_GCType as v8__GCType;
+#[doc = " Interceptor callbacks use this value to indicate whether the request was\n intercepted or not.\n\n The values for constants and type are chosen this way for better\n performance."]
+pub use self::v8_Intercepted as v8__Intercepted;
 pub const v8__MAJOR_VERSION: u32 = 14;
-pub const v8__MINOR_VERSION: u32 = 5;
-pub const v8__BUILD_NUMBER: u32 = 201;
-pub const v8__PATCH_LEVEL: u32 = 2;
-pub const v8__VERSION_STRING: &::std::ffi::CStr = c"14.5.201.2-rusty";
+pub const v8__MINOR_VERSION: u32 = 7;
+pub const v8__BUILD_NUMBER: u32 = 173;
+pub const v8__PATCH_LEVEL: u32 = 20;
+pub const v8__VERSION_STRING: &::std::ffi::CStr = c"14.7.173.20-rusty";
 #[repr(C)]
 #[derive(Debug)]
 pub struct ExternalConstOneByteStringResource {
